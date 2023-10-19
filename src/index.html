@@ -108,7 +108,12 @@
             <div class="card" style="max-width: 1020px;">
                 <div class="card-block">
                 <h3>How Do Language Model Represent Functions?</h3>
-                <p>In this paper, we investigate the internal model computations during ICL and find
+                <p>In this paper, we investigate language models (LMs) as they process in-context learning (ICL) prompts 
+                    which demonstrate a particular "function" via input-output pairs. 
+                    We find that LM hidden states contain a compact representation of the demonstrated function, which can be extracted as a function vector (FV).
+                    We show that a function vector can be used to trigger the execution of a specific procedure by the language model, 
+                    and is causes such behavior even in contexts that differ from the original ICL template it is extracted from.
+                    
                 </p>
                 </div><!--card-block-->
                 </div><!--card-->
@@ -122,13 +127,30 @@
                 <figure class="center_image" style="margin-top: 30px">
                     <img src="images/Paper/fv_overview.png" style="width:100%">
                     <figcaption>
-                        FV OVERVIEW CAPTION
+                        An overview of function vectors (FVs). An FV is extracted from activations induced by in-context examples of antonym generation (a) or English to Spanish translation (b), and then inserted into an unrelated context to induce generation of a new antonym (c) or translation (d).
+                        An FV does not directly perform a task, but rather can be used to trigger the execution of a specific procedure by the language model.
                     </figcaption>
                 </figure>
 
                 
                 <h2>How is a Function Vector Computed?</h2>
-                To compute a function vector
+                A function vector v_t is computed as the sum of the average outputs of a small set of attention heads.
+                
+                <figure class="center_image" style="margin-top: 30px">
+                    <div class="row">
+                        <div class="col">
+                            <img src="images/fv_equation1.png" style="width:58%">
+                        </div>
+                        <div class="col">
+                            <img src="images/fv_equation2.png" style="width:42%">
+                        </div>  
+                    </div>  
+                    <figcaption>
+                    
+                    </figcaption>
+                </figure>
+
+                
 
                 <h2>What Can a Function Vector Do?</h2>
                 A function vector (FV) can be added to a language model's computations to trigger a particular behavior in a language model.
@@ -139,8 +161,10 @@
                     </figcaption>
                 </figure>
 
-                <h2>Can Function Vectors be Combined?</h2>
-                Some text here.
+                <!-- <h2>Can Function Vectors be Combined?</h2> -->
+                <!-- Some text here. -->
+                <!-- We extract function vectors using the activations of a small number  -->
+                <!-- Function vectors are transported by a small number of attention heads -->
 
 
                     
