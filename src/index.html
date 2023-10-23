@@ -8,9 +8,9 @@
         content="" />
     <meta property="og:title" content="Function Vectors in Large Language Models" />
     <meta property="og:url" content="https://functions.baulab.info/" />
-    <meta property="og:image" content="https://functions.baulab.info/images/lre-thumb.png" />
+    <meta property="og:image" content="https://functions.baulab.info/images/" />
     <meta property="og:description"
-        content="" />
+        content="Understanding computation of transformer neural network language models during in-context learning" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Function Vectors in Large Language Models" />
@@ -109,12 +109,12 @@
             <div class="card" style="max-width: 1020px;">
                 <div class="card-block">
                 <h3>How Do Language Models Represent Functions?</h3>
-                <p>In this paper, we investigate language models (LMs) as they process in-context learning (ICL) prompts 
+                <p style="text-align: justify;">
+                    In this paper, we investigate language models (LMs) as they process in-context learning (ICL) prompts 
                     which demonstrate a particular "function" via input-output pairs. 
-                    We find that LM hidden states contain a compact representation of the demonstrated function, which can be extracted as a function vector.
-                    We show that function vectors can be used to trigger the execution of a specific procedure by the language model, 
-                    and it can cause such behavior even in contexts that differ from the original ICL template it is extracted from.
-                    Our findings suggest that language model representations contain internal abstractions of general-purpose functions that can be invoked in a variety of contexts.
+                    We find that LM hidden states contain a compact representation of the demonstrated function, which can be extracted and condensed into a function vector (FV).
+                    We show that an FV can be used to trigger the execution of a specific procedure by the language model, 
+                    and can cause such behavior even in contexts that differ from the original ICL template it is extracted from.
                 </p>
                 </div><!--card-block-->
                 </div><!--card-->
@@ -126,7 +126,7 @@
                 
                 
                 <figure class="center_image" style="margin-top: 30px">
-                    <img src="images/Paper/fv_overview.svg" style="width:100%">
+                    <img src="images/Paper/fv_overview.png" style="width:100%">
                     <figcaption>
                         An example of function vectors (FVs) can be used. Here, an FV is extracted from activations induced by in-context examples of antonym generation (a) or English to Spanish translation (b), and then inserted into an unrelated context to induce generation of a new antonym (c) or translation (d).
                         An FV does not directly perform a task, but rather can be used to trigger the execution of a specific procedure by the language model.
@@ -141,8 +141,7 @@
                 <figure class="center_image" style="margin-top: 30px">
                     <div class="row">
                         <div class="col">
-                            <img src="images/fv_computation.png" style="width:100%">
-                            
+                            <img src="images/Paper/fv_computation.png" style="width:100%">
                         </div>
                     </div>  
                     <figcaption>
@@ -154,17 +153,16 @@
 
                 <h2>What Can a Function Vector Do?</h2>
                 A function vector (FV) can be added to a language model's computations to trigger a particular behavior in a language model.
+                Though FVs are extracted from templated ICL prompts, we show that they are surprisingly robust to being added into different contexts - including natural text.
                 <figure class="center_image" style="margin-top: 30px">
-                    <img src="images/qualitative.png" style="width:100%">
+                    <img src="images/Paper/qualitative.png" style="width:100%">
                     <figcaption>
-                        Examples completions when adding English-French translation and Country-Capital City function vectors (FVs) to GPT-J. 
+                        Example completions of prompts before and after adding English to French translation and Country to Capital City function vectors (FVs) to GPT-J.
                     </figcaption>
                 </figure>
 
                 <!-- <h2>Can Function Vectors be Combined?</h2> -->
                 <!-- Some text here. -->
-                <!-- We extract function vectors using the activations of a small number  -->
-                <!-- Function vectors are transported by a small number of attention heads -->
 
 
                     
@@ -191,6 +189,9 @@
                 <b>Notes:</b> Analyzes internal mechanisms of transformer components, developing mathematical tools for understanding patterns of computations.  Observes information-copying behavior in self-attention "induction heads" implicated in the strong performance of transformers.
                 </p>
                 <!-- <h3>Task Representations</h3> -->
+                <!-- <p class="citation"><a href=""><img src="" alt=""> </a><br>
+                <b>Notes:</b> 
+                </p>  -->
 
 	
                 <h2>How to cite</h2>
