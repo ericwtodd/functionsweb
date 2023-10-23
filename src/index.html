@@ -78,7 +78,8 @@
                 <nobr><a href="https://arnab-api.github.io/" target="_blank">Arnab Sen Sharma</a>,</nobr>
                 <nobr><a href="https://aaronmueller.github.io/" target="_blank">Aaron Mueller</a>,</nobr>
                 <nobr><a href="https://www.byronwallace.com/" target="_blank">Byron C. Wallace</a>,</nobr>
-                <nobr><a href="https://baulab.info/" target="_blank">David Bau</a></nobr>
+                <nobr><a href="https://baulab.info/" target="_blank">David Bau</a></nobr><br>
+                <nobr><a href="https://khoury.northeastern.edu/" target="_blank">Northeastern University</a></nobr>
             </address>
         </div>
     </div><!-- end nd-pageheader -->
@@ -107,13 +108,13 @@
 
             <div class="card" style="max-width: 1020px;">
                 <div class="card-block">
-                <h3>How Do Language Model Represent Functions?</h3>
+                <h3>How Do Language Models Represent Functions?</h3>
                 <p>In this paper, we investigate language models (LMs) as they process in-context learning (ICL) prompts 
                     which demonstrate a particular "function" via input-output pairs. 
-                    We find that LM hidden states contain a compact representation of the demonstrated function, which can be extracted as a function vector (FV).
-                    We show that a function vector can be used to trigger the execution of a specific procedure by the language model, 
-                    and is causes such behavior even in contexts that differ from the original ICL template it is extracted from.
-                    
+                    We find that LM hidden states contain a compact representation of the demonstrated function, which can be extracted as a function vector.
+                    We show that function vectors can be used to trigger the execution of a specific procedure by the language model, 
+                    and it can cause such behavior even in contexts that differ from the original ICL template it is extracted from.
+                    Our findings suggest that language model representations contain internal abstractions of general-purpose functions that can be invoked in a variety of contexts.
                 </p>
                 </div><!--card-block-->
                 </div><!--card-->
@@ -125,28 +126,27 @@
                 
                 
                 <figure class="center_image" style="margin-top: 30px">
-                    <img src="images/Paper/fv_overview.png" style="width:100%">
+                    <img src="images/Paper/fv_overview.svg" style="width:100%">
                     <figcaption>
-                        An overview of function vectors (FVs). An FV is extracted from activations induced by in-context examples of antonym generation (a) or English to Spanish translation (b), and then inserted into an unrelated context to induce generation of a new antonym (c) or translation (d).
+                        An example of function vectors (FVs) can be used. Here, an FV is extracted from activations induced by in-context examples of antonym generation (a) or English to Spanish translation (b), and then inserted into an unrelated context to induce generation of a new antonym (c) or translation (d).
                         An FV does not directly perform a task, but rather can be used to trigger the execution of a specific procedure by the language model.
                     </figcaption>
                 </figure>
 
                 
                 <h2>How is a Function Vector Computed?</h2>
-                A function vector v_t is computed as the sum of the average outputs of a small set of attention heads.
+                We use causal mediation analysis to identify a small set of attention heads <span class="mathcal" style="font-family: 'Lucida Calligraphy', 'Monotype Corsiva', 'URW Chancery L', 'Apple Chancery', 'Tex Gyre Chorus', cursive, serif; font-size:19px">A</span>, that causally contribute to correctly resolving ICL prompts across a variety of tasks.
+                We create a function vector for an individual task <span style="font-family:'Times New Roman'; font-size:19px"><i>t</i></span> by summing up the task-conditioned average output of each of these causal attention heads into a single vector <span style="font-family:'Times New Roman'; font-size:19px"><i>v<sub>t</sub></i></span>. 
                 
                 <figure class="center_image" style="margin-top: 30px">
                     <div class="row">
                         <div class="col">
-                            <img src="images/fv_equation1.png" style="width:58%">
+                            <img src="images/fv_computation.png" style="width:100%">
+                            
                         </div>
-                        <div class="col">
-                            <img src="images/fv_equation2.png" style="width:42%">
-                        </div>  
                     </div>  
                     <figcaption>
-                    
+                    (a) Computing the mean task-conditioned activation of a single attention head over a set of prompts.<br> (b) A function vector is computed as the sum of the task-conditioned activations of a small set of causal attention heads.
                     </figcaption>
                 </figure>
 
@@ -177,19 +177,21 @@
                 
                 
                 
-                <!-- <h3>Task Representations</h3> -->
+                <!-- <h3>Transformer Mechanisms</h3> -->
                 <p class="citation"><a href="https://arxiv.org/pdf/2305.16130.pdf"><img src="images/merullo-2023.png" alt="merullo-2023">Jack Merullo, Carsten Eickhoff, Ellie Pavlick. A Mechanism for Solving Relational Tasks in Transformer Language Models. 2023.</a><br>
-                <b>Notes:</b> Analyzes the role of components during execution of ICL tasks. Identifies a simple mechanism implemented in late layers of transformer models that resolves one-to-one relational tasks via a simple linear update.
+                <b>Notes:</b> Analyzes the role of components during execution of ICL tasks. Identifies a mechanism implemented in late layers of transformer models that resolves one-to-one relational tasks via a simple linear update.
                 </p>                
                 
-                <p class="citation"><a href="https://arxiv.org/pdf/2307.09476.pdf"><img src="images/halawi-2023.png" alt="">Danny Halawi, Jean-Stanislas Denain, and Jacob Steinhardt. Overthinking the Truth: Understanding how Language Models Process False Demonstrations. 2023.</a><br>
-                <b>Notes:</b>  Examines the behavior of attention heads in ICL contexts when there are false demonstrations present. Identifies and corrects "overthinking" behavior where incorrect information forward is otherwise copied forward from context.
+                <p class="citation"><a href="https://arxiv.org/pdf/2307.09476.pdf"><img src="images/halawi-2023.png" alt="halawi-2023">Danny Halawi, Jean-Stanislas Denain, and Jacob Steinhardt. Overthinking the Truth: Understanding how Language Models Process False Demonstrations. 2023.</a><br>
+                <b>Notes:</b>  Examines the behavior of attention heads in ICL contexts with false demonstrations present. Identifies and corrects "overthinking" behavior where incorrect information forward is otherwise copied forward from context.
                 </p>
 
-                <!-- <h3>Transformer Mechanisms</h3> -->
+                
                 <p class="citation"><a href="https://transformer-circuits.pub/2021/framework/index.html"><img src="images/elhage-2021.png" alt="elhage-2021">Nelson Elhage, Neel Nanda, Catherine Olsson, Tom Henighan, Nicholas Joseph, Ben Mann, Amanda Askell, Yuntao Bai, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Deep Ganguli, Zac Hatfield-Dodds, Danny Hernandez, Andy Jones, Jackson Kernion, Liane Lovitt, Kamal Ndousse, Dario Amodei, Tom Brown, Jack Clark, Jared Kaplan, Sam McCandlish, Chris Olah. A Mathematical Framework for Transformer Circuits. Anthropic 2021.</a><br>
                 <b>Notes:</b> Analyzes internal mechanisms of transformer components, developing mathematical tools for understanding patterns of computations.  Observes information-copying behavior in self-attention "induction heads" implicated in the strong performance of transformers.
                 </p>
+                <!-- <h3>Task Representations</h3> -->
+
 	
                 <h2>How to cite</h2>
 
@@ -201,7 +203,7 @@
                     <div class="card-block">
                         <p style="text-indent: -3em; margin-left: 3em;" class="card-text clickselect">
                             Eric Todd, Millicent L. Li, Arnab Sen Sharma, Aaron Mueller, Byron C. Wallace, and David Bau. "<em>Function Vectors in Large Language Models</em>" arXiv preprint <nobr><a
-                                    href="https://arxiv.org/abs/2310.">arXiv:</a> (2023).</nobr>
+                                    href="">arXiv:</a> (2023).</nobr>
                         </p>
                     </div>
                     <h3 class="card-header">bibtex</h3>
