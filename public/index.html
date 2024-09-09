@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Function Vectors in Large Language Models</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description"
+        content="" />
+    <meta property="og:title" content="Function Vectors in Large Language Models" />
+    <meta property="og:url" content="https://functions.baulab.info/" />
+    <meta property="og:image" content="https://functions.baulab.info/images/fv-thumb.png" />
+    <meta property="og:description" content="LLMs have an embedding space for functions that emerge from in-context learning.">
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Function Vectors in Large Language Models" />
+    <meta name="twitter:description"
+        content="Understanding the internal computations of huge autoregressive transformer neural network language models during in-context learning." />
+    <meta name="twitter:image" content="https://functions.baulab.info/images/fv-thumb.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+
+    <style>
+        .relatedthumb {
+            float: left;
+            width: 200px;
+            margin: 3px 10px 7px 0;
+        }
+
+        .relatedblock {
+            clear: both;
+            display: inline-block;
+        }
+
+        .bold-sc {
+            font-variant: small-caps;
+            font-weight: bold;
+        }
+
+        .cite,
+        .citegroup {
+            margin-bottom: 8px;
+        }
+
+        :target {
+            background-color: yellow;
+        }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FD12LWN557"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date()); gtag('config', 'G-FD12LWN557');
+    </script>
+
+</head>
+
+<body class="nd-docs">
+    <div class="nd-pageheader">
+        <div class="container">
+            <h1 class="lead">
+                <nobr class="widenobr">Function Vectors in Large Language Models </nobr>
+            </h1>
+            <address>
+                <nobr><a href="https://ericwtodd.github.io/" target="_blank">Eric Todd</a>,</nobr>
+                <nobr><a href="https://millicentli.github.io/" target="_blank">Millicent L. Li</a>,</nobr>
+                <nobr><a href="https://arnab-api.github.io/" target="_blank">Arnab Sen Sharma</a>,</nobr>
+                <nobr><a href="https://aaronmueller.github.io/" target="_blank">Aaron Mueller</a>,</nobr>
+                <nobr><a href="https://www.byronwallace.com/" target="_blank">Byron C. Wallace</a>,</nobr>
+                <nobr><a href="https://baulab.info/" target="_blank">David Bau</a></nobr><br>
+                <nobr><a href="https://khoury.northeastern.edu/" target="_blank">Northeastern University</a></nobr>
+            </address>
+            <center>
+                International Conference on Learning Representations (<a href="https://iclr.cc/Conferences/2024">ICLR 2024</a>)
+            </center>
+        </div>
+    </div><!-- end nd-pageheader -->
+
+    <div class="container">
+        <div class="row justify-content-center" style="margin-bottom: 20px">
+        </div>
+        <div class="row justify-content-center text-center">
+
+            <p>
+                <a href="https://arxiv.org/pdf/2310.15213.pdf" class="d-inline-block p-3 align-top" target="_blank">
+                    <img height="100" width="78" src="images/paper-thumb.png" style="border:1px solid; margin: 0 38px;"
+                        alt="ArXiv Preprint thumbnail" data-nothumb="">
+                    <br>ArXiv<br>Preprint</a>
+                <a href="https://github.com/ericwtodd/function_vectors" class="d-inline-block p-3 align-top" target="_blank">
+                    <img height="100" width="78" src="images/code-thumb.png" style="border:1px solid; margin: 0 38px;"
+                        alt="Github code thumbnail" data-nothumb="">
+                    <br>Source Code<br>Github
+                </a>
+                <a href="https://github.com/ericwtodd/function_vectors/tree/main/dataset_files" class="d-inline-block p-3 align-top" target="_blank">
+                    <img height="100" width="78" src="images/data-thumb.png" style="border:1px solid; margin: 0 38px;"
+                        alt="Dataset thumbnail" data-nothumb="">
+                    <br>Data<br>
+                </a>
+                <a href="files/iclr-poster.pdf" class="d-inline-block p-3 align-bottom" target="_blank">
+                    <img height="78" width="100" src="images/iclr-poster-thumb.png" style="border:1px solid; margin: 0 38px;"
+                        alt="Poster thumbnail" data-nothumb="">
+                    <br>ICLR<br>Poster
+                </a>
+            </p>
+
+            <div class="card" style="max-width: 1020px;">
+                <div class="card-block">
+                <h3>How Do Language Models Represent Functions?</h3>
+                <p style="text-align: justify;">
+                    In this paper, we investigate language models (LMs) as they process in-context learning (ICL) prompts 
+                    which demonstrate a particular "function" via input-output pairs. 
+                    We find that LM hidden states contain a compact representation of the demonstrated function, which can be extracted and condensed into a function vector (FV).
+                    We show that an FV can be used to trigger the execution of a specific procedure by the language model, 
+                    and can cause such behavior even in contexts that differ from the original ICL template it is extracted from.
+                </p>
+                </div><!--card-block-->
+                </div><!--card-->
+
+        </div><!--row-->
+
+        <div class="row">
+            <div class="col">
+                
+                
+                <figure class="center_image" style="margin-top: 30px">
+                    <img src="images/Paper/fv-demonstrations.png" style="width:100%">
+                    <figcaption>
+                        An example of how function vectors (FVs) can be used. Here, an FV is extracted from activations induced by in-context examples of antonym generation or English-to-Spanish translation, and then inserted into an unrelated context to induce generation of a new antonym or translation.
+                        An FV does not directly perform a task, but rather can be used to trigger the execution of a specific procedure by the language model.
+                    </figcaption>
+                </figure>
+
+                
+                <h2>How is a Function Vector Computed?</h2>
+                We use causal mediation analysis to identify a small set of attention heads <span class="mathcal" style="font-family: 'Lucida Calligraphy', 'Monotype Corsiva', 'URW Chancery L', 'Apple Chancery', 'Tex Gyre Chorus', cursive, serif; font-size:19px">A</span>, that causally contribute to correctly resolving ICL prompts across a variety of tasks.
+                We create a function vector for an individual task <span style="font-family:'Times New Roman'; font-size:19px"><i>t</i></span> by summing up the task-conditioned average output of each of these causal attention heads into a single vector <span style="font-family:'Times New Roman'; font-size:19px"><i>v<sub>t</sub></i></span>. 
+                
+                <figure class="center_image" style="margin-top: 30px">
+                    <div class="row">
+                        <div class="col">
+                            <img src="images/Paper/fv_computation.png" style="width:100%">
+                        </div>
+                    </div>  
+                    <figcaption>
+                    (a) Computing the mean task-conditioned activation of a single attention head over a set of prompts.<br> (b) A function vector is computed as the sum of the task-conditioned activations of a small set of causal attention heads.
+                    </figcaption>
+                </figure>
+
+                
+
+                <h2>What Can a Function Vector Do?</h2>
+                A function vector (FV) can be added to a language model's computations to trigger a particular behavior in a language model.
+                Though FVs are extracted from templated ICL prompts, we show that they are surprisingly robust to being added into different contexts - including natural text.
+                <figure class="center_image" style="margin-top: 30px">
+                    <img src="images/Paper/qualitative.png" style="width:100%">
+                    <figcaption>
+                        Example completions of prompts before and after adding English to French translation and Country to Capital City function vectors (FVs) to GPT-J.
+                    </figcaption>
+                </figure>
+
+                <h2>Can Function Vectors be Composed?</h2>
+                We investigate whether function vectors display semantic vector algebra properties over functional behavior by composing simple functions into more complex ones.
+                We find that function vector algebra does compose task-specific information well on many tasks. 
+                <figure class="center_image" style="margin-top: 30px">
+                    <img src="images/Paper/composition_both.png" style="width:100%">
+                    <figcaption>
+                        We investigate algebra over functions and find that some function vectors can be composed - an example here is shown composing vectors to get a function vector that does the following: "provide the capital city of the country that comes last in the list".
+                    </figcaption>
+                </figure>
+
+                
+                <!-- <h2>Related Work</h2> -->
+
+                <h2>Concurrent Work</h2>
+                
+                <p class="citation"><a href="https://arxiv.org/pdf/2310.15916.pdf"><img src="images/hendel-2023.png" alt="hendel-2023">Roee Hendel, Mor Geva, Amir Globerson. In-Context Learning Creates Task Vectors. 2023.</a><br>
+                    <b>Notes:</b> Function vectors have been independently observed in simultaneous work by Hendel et al. (2023), who examine the phenomenon on a different set of models and tasks.  (In a terrific coincidence, our preprint and theirs were arXived on exactly the same day!)
+                </p> 
+
+                
+
+
+                  
+                
+                <h2>Transformer Mechanisms</h2>
+                <p>Our work builds upon insights in other work that has examined
+                    mechanisms and representations of large transformer language models from
+                    several other perspectives:</p>
+
+                <p class="citation"><a href="https://arxiv.org/pdf/2305.16130.pdf"><img src="images/merullo-2023.png" alt="merullo-2023">Jack Merullo, Carsten Eickhoff, Ellie Pavlick. A Mechanism for Solving Relational Tasks in Transformer Language Models. 2023.</a><br>
+                <b>Notes:</b> Analyzes the role of components during execution of ICL tasks. Identifies a mechanism implemented in late layers of transformer models that resolves one-to-one relational tasks via a simple linear update.
+                </p>                
+                
+                <p class="citation"><a href="https://arxiv.org/pdf/2307.09476.pdf"><img src="images/halawi-2023.png" alt="halawi-2023">Danny Halawi, Jean-Stanislas Denain, and Jacob Steinhardt. Overthinking the Truth: Understanding how Language Models Process False Demonstrations. 2023.</a><br>
+                <b>Notes:</b> Examines the behavior of attention heads in ICL contexts with false demonstrations present. Identifies and corrects "overthinking" behavior where incorrect information forward is otherwise copied forward from context.
+                </p>
+
+                
+                <p class="citation"><a href="https://transformer-circuits.pub/2021/framework/index.html"><img src="images/elhage-2021.png" alt="elhage-2021">Nelson Elhage, Neel Nanda, Catherine Olsson, Tom Henighan, Nicholas Joseph, Ben Mann, Amanda Askell, Yuntao Bai, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Deep Ganguli, Zac Hatfield-Dodds, Danny Hernandez, Andy Jones, Jackson Kernion, Liane Lovitt, Kamal Ndousse, Dario Amodei, Tom Brown, Jack Clark, Jared Kaplan, Sam McCandlish, Chris Olah. A Mathematical Framework for Transformer Circuits. Anthropic 2021.</a><br>
+                <b>Notes:</b> Analyzes internal mechanisms of transformer components, developing mathematical tools for understanding patterns of computations.  Observes information-copying behavior in self-attention "induction heads" implicated in the strong performance of transformers.
+                </p>
+                <!-- <h3>Task Representations</h3> -->
+                <!-- <p class="citation"><a href=""><img src="" alt=""> </a><br>
+                <b>Notes:</b> 
+                </p>  -->
+
+                
+
+                <p class="citation"><a href="https://arxiv.org/pdf/2312.10091.pdf"><img src="images/variengien-winsor-2023.png" alt="variengien-winsor-2023">Alexandre Variengien, Eric Winsor. Look Before You Leap: A Universal Emergent Decomposition of Retrieval Tasks in Language Models. 2023.</a><br>
+                    <b>Notes:</b> Demonstrates transformer language models decompose retrieval tasks in a modular way, showing middle layers process task information and later layers retrieve the context satisfying the specified task. 
+                </p> 
+
+
+                <h2>Controllable Generation</h2>
+
+                <p class="citation"><a href="https://arxiv.org/pdf/2205.05124.pdf"><img src="images/subramani-2022.png" alt="subramani-2022">Nishant Subramani, Nivedita Suresh, Matthew E. Peters. Extracting Latent Steering Vectors from Pretrained Language Models. 2022.</a><br>
+                    <b>Notes:</b> Explores how language models can be steered through their latent space by extracting vectors that lead to good recovery of complete sentences. Latent steering vectors exhibit vector arithmetic properties for sentiment tasks. 
+                </p> 
+
+                <p class="citation"><a href="https://arxiv.org/pdf/2306.03341.pdf"><img src="images/li-2023.png" alt="li-2023">Kenneth Li, Oam Patel, Fernanda Viégas, Hanspeter Pfister, Martin Wattenberg. Inference-Time Intervention: Eliciting Truthful Answers from a Language Model. 2023.</a><br>
+                    <b>Notes:</b> Introduces an intervention approach that increases the truthfulness of language models by adjusting model activations during inference. A "truthful" direction is added to the outputs of several attention heads to steer the model towards being more truthful.
+                </p> 
+
+                
+                <p class="citation"><a href="https://arxiv.org/pdf/2308.10248.pdf"><img src="images/turner-2023.png" alt="turner-2023">Alexander Matt Turner, Lisa Thiergart, David Udell, Gavin Leech, Ulisse Mini, Monte MacDiarmid. Activation Addition: Steering Language Models Without Optimization. 2023.</a><br>
+                    <b>Notes:</b> Shows that language model (LM) activations can be used to steer LM behavior in predictable ways when added to the residual stream at inference time. 
+                </p> 
+
+                <p class="citation"><a href="https://arxiv.org/pdf/2312.06681.pdf"><img src="images/rimsky-caa-2023.png" alt="rimsky-caa-2023">Nina Rimsky, Nick Gabrieli, Julian Schulz, Meg Tong, Evan Hubinger, Alexander Matt Turner. Steering Llama 2 via Contrastive Activation Addition. 2023.</a><br>
+                    <b>Notes:</b> Presents a contrastive approach to activation addition that can steer language model responses at inference time to induce a variety of behaviors, including reducing hallucinations and sycophancy.
+                </p> 
+
+                <p class="citation"><a href="https://arxiv.org/pdf/2311.06668.pdf"><img src="images/liu-2023.png" alt="liu-2023">Sheng Liu, Lei Xing, James Zou. In-context Vectors: Making In Context Learning More Effective and Controllable Through Latent Space Steering. 2023.</a><br>
+                    <b>Notes:</b> Analyzes in-context vectors extracted from language model activations on prompts that demonstrate a desired behavior. Shows that adding these vectors during inference can induce behavior similar to what was previously demonstrated.
+                </p> 
+
+                
+
+                
+
+	
+                <h2>How to cite</h2>
+
+                <p>This work appeared at ICLR 2024. The paper can be cited as follows.
+                </p>
+
+                <div class="card">
+                    <h3 class="card-header">bibliography</h3>
+                    <div class="card-block">
+                        <p style="text-indent: -3em; margin-left: 3em;" class="card-text clickselect">
+                        Eric Todd, Millicent L. Li, Arnab Sen Sharma, Aaron Mueller, Byron C. Wallace, and David Bau. "<em>Function Vectors in Large Language Models.</em>" Proceedings of the 2024 International Conference on Learning Representations <nobr>(ICLR 2024)</nobr>
+                        </p>
+                    </div>
+                    <h3 class="card-header">bibtex</h3>
+                    <div class="card-block">
+                        <pre class="card-text clickselect">
+@inproceedings{todd2024function,
+    title={Function Vectors in Large Language Models}, 
+    author={Eric Todd and Millicent L. Li and Arnab Sen Sharma and Aaron Mueller and Byron C. Wallace and David Bau},
+    booktitle={Proceedings of the 2024 International Conference on Learning Representations},
+    year={2024},
+}</pre>
+                    </div>
+                </div>
+                <!-- </p> -->
+
+            <!-- </div> -->
+            </div> <!--col -->    
+        </div> <!--row -->
+    </div> <!-- container -->
+
+    
+
+    <footer class="nd-pagefooter">
+        <div class="row">
+            <div class="col-6 col-md text-center">
+                <a href="https://baulab.info/">About the Bau Lab</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+<script>
+    $(document).on('click', '.clickselect', function (ev) {
+        var range = document.createRange();
+        range.selectNodeContents(this);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    });
+</script>
+
+</html>
